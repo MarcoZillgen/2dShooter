@@ -7,7 +7,9 @@ import Vector2 from "./Vector2.js";
 export default class Renderer {
   public static readonly FPS = 5;
   public static readonly QUALITY = 1;
+  public static readonly FOV = new Angle(90);
   public static readonly MINIMAP_SCALE = 0.5;
+  public static readonly VIEW_DISTANCE = 500;
   public static readonly BACKGROUND_COLOR = "hsla(0, 0%, 0%, 0.5)";
   public static readonly SKY_COLOR = "hsl(0, 0%, 50%)";
   public static readonly FLOOR_COLOR = "hsl(0, 0%, 25%)";
@@ -83,11 +85,11 @@ export default class Renderer {
     const width = this.canvas.width * Renderer.QUALITY;
 
     // step angle
-    const stepAngle = new Angle(this.player.fov.angle / width);
+    const stepAngle = new Angle(Renderer.FOV.angle / width);
 
     // start angle
     let currentAngle = new Angle(
-      this.player.angle.angle - this.player.fov.angle / 2
+      this.player.angle.angle - Renderer.FOV.angle / 2
     );
 
     const playerIntersections: {
@@ -100,7 +102,7 @@ export default class Renderer {
     for (let x = 0; x < width; x++) {
       const playerLine = new Line(
         this.player.position,
-        currentAngle.getVector2(this.player.position, Player.VIEW_DISTANCE)
+        currentAngle.getVector2(this.player.position, Renderer.VIEW_DISTANCE)
       );
 
       // go through map
@@ -151,15 +153,15 @@ export default class Renderer {
 
   public drawPlayer(x: number, distance: number) {
     // make an arc where the player is
-    const s = 100 * (1 - distance / Player.VIEW_DISTANCE);
-    const l = (100 * (1 - distance / Player.VIEW_DISTANCE)) / 2;
+    const s = 100 * (1 - distance / Renderer.VIEW_DISTANCE);
+    const l = (100 * (1 - distance / Renderer.VIEW_DISTANCE)) / 2;
 
     this.context.fillStyle = `hsl(0, ${s}%, ${l}%)`;
     this.context.beginPath();
     this.context.arc(
       x / Renderer.QUALITY,
       this.canvas.height / 2 / Renderer.QUALITY,
-      (Player.VIEW_DISTANCE / distance) * Renderer.PLAYER_SIZE,
+      (Renderer.VIEW_DISTANCE / distance) * Renderer.PLAYER_SIZE,
       0,
       2 * Math.PI
     );
@@ -168,17 +170,18 @@ export default class Renderer {
 
   public drawColumn(x: number, distance: number) {
     // Calculate height and top of column (relative to canvas height and distance)
-    const columnHeight = (this.canvas.height / distance) * Player.VIEW_DISTANCE;
+    const columnHeight =
+      (this.canvas.height / distance) * Renderer.VIEW_DISTANCE;
     const top = (this.canvas.height - columnHeight) / 2;
 
-    const l = 100 * (1 - distance / Player.VIEW_DISTANCE);
+    const l = 100 * (1 - distance / Renderer.VIEW_DISTANCE);
 
     // Calculate color
     const color = `hsl(0, 0%, ${l}%)`;
 
     // Adjust height for a more realistic appearance (e.g., perspective)
     const adjustedHeight =
-      (columnHeight * Math.cos(distance / Player.VIEW_DISTANCE)) / 4;
+      (columnHeight * Math.cos(distance / Renderer.VIEW_DISTANCE)) / 4;
 
     const right = 1;
 

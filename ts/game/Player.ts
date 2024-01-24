@@ -5,12 +5,10 @@ import Line from "./Line.js";
 import Renderer from "./Renderer.js";
 
 export default class Player {
-  public static readonly FOV = new Angle(90);
-  public static readonly VIEW_DISTANCE = 500;
-  public static readonly TURN_SPEED = 0.2;
   public static readonly WALK_SPEED = 1;
   public static readonly STRAFE_MULTIPLIER = 0.6;
   public static readonly RUN_MULTIPLIER = 1.5;
+  public static readonly TURN_SPEED = 0.1;
   public running = false;
   constructor(
     public position: Vector2,
