@@ -17,6 +17,14 @@ const map: Line[] = [
 
 const game = new Game(map, 500, 500);
 
+const testPlayer = new Player(
+  new Vector2(300, 300),
+  new Angle(0),
+  new Angle(90),
+  game
+);
+game.addPlayer(testPlayer);
+
 const player = new Player(
   new Vector2(350, 350),
   new Angle(-135),
@@ -24,13 +32,13 @@ const player = new Player(
   game
 );
 
+game.addPlayer(player);
+
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 const renderer = new Renderer(canvas, context, player, game);
 
-game.addPlayer(player);
-
-const controller = new Controller(player, canvas);
+const controller = new Controller(player, canvas, game);
 
 let lastTime = 0;
 

@@ -6,7 +6,8 @@ export default class Game {
   constructor(
     public map: Line[],
     public width: number,
-    public height: number
+    public height: number,
+    public paused = true
   ) {}
 
   public addPlayer(player: Player) {

@@ -2,6 +2,7 @@ import Vector2 from "./Vector2.js";
 import Angle from "./Angle.js";
 import Game from "./Game.js";
 import Line from "./Line.js";
+import Renderer from "./Renderer.js";
 
 export default class Player {
   public static readonly FOV = new Angle(90);
@@ -88,5 +89,15 @@ export default class Player {
 
   public turn(angle: number) {
     this.angle.add(angle * Player.TURN_SPEED);
+  }
+
+  public createLine(viewAngle: Angle) {
+    const angle = new Angle(viewAngle.angle + 90);
+    const vector = angle.getVector2(this.position, 2);
+
+    const angle2 = new Angle(viewAngle.angle - 90);
+    const vector2 = angle2.getVector2(this.position, 2);
+
+    return new Line(vector, vector2);
   }
 }
