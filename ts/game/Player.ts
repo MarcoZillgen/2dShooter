@@ -2,13 +2,12 @@ import Vector2 from "./Vector2.js";
 import Angle from "./Angle.js";
 import Game from "./Game.js";
 import Line from "./Line.js";
-import Renderer from "./Renderer.js";
 
 export default class Player {
-  public static readonly TURN_SPEED = 0.2;
   public static readonly WALK_SPEED = 1;
   public static readonly STRAFE_MULTIPLIER = 0.6;
   public static readonly RUN_MULTIPLIER = 1.5;
+  public turnSpeed = 0.2;
   public running = false;
   constructor(
     public position: Vector2,
@@ -86,7 +85,7 @@ export default class Player {
   }
 
   public turn(angle: number) {
-    this.angle.add(angle * Player.TURN_SPEED);
+    this.angle.add(angle * this.turnSpeed);
   }
 
   public createLine(viewAngle: Angle) {

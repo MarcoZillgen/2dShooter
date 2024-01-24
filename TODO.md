@@ -1,7 +1,8 @@
 # Bugs
 
-[ ] Player size is not changing with the FOV
+[ ] Player width is not changing with the FOV
 [ ] No direction indicator
+[ ] Player height from real bottom like walls, but height lower
 
 # Features
 
